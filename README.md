@@ -13,6 +13,8 @@ Jupyter notebooks with exercises and code examples for the Computer Vision (CVI4
 | 03 | Image Filtering & Frequency Analysis | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/schedldave/cvi4ic-notebooks/blob/main/03-image-filtering.ipynb) |
 | 04 | Edge Detection & Feature Detection | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/schedldave/cvi4ic-notebooks/blob/main/04-edge-feature-detection.ipynb) |
 | 05 | Image Stitching & Homographies | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/schedldave/cvi4ic-notebooks/blob/main/05-image-stitching.ipynb) |
+| 07 | CNNs: Review & Modern Architectures | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/schedldave/cvi4ic-notebooks/blob/main/07-cnns.ipynb) |
+| 08 | Vision Transformers (ViT) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/schedldave/cvi4ic-notebooks/blob/main/08-vision-transformers.ipynb) |
 
 > More sessions will be added as the course progresses.
 
