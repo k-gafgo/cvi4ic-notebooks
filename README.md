@@ -15,6 +15,7 @@ Jupyter notebooks with exercises and code examples for the Computer Vision (CVI4
 | 05 | Image Stitching & Homographies | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/schedldave/cvi4ic-notebooks/blob/main/05-image-stitching.ipynb) |
 | 07 | CNNs: Review & Modern Architectures | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/schedldave/cvi4ic-notebooks/blob/main/07-cnns.ipynb) |
 | 08 | Vision Transformers (ViT) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/schedldave/cvi4ic-notebooks/blob/main/08-vision-transformers.ipynb) |
+| 09 | Object Detection | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/schedldave/cvi4ic-notebooks/blob/main/09-object-detection.ipynb) |
 
 > More sessions will be added as the course progresses.
 
@@ -38,4 +39,5 @@ jupyter notebook
 - Python 3.10+
 - OpenCV, NumPy, Matplotlib (all sessions)
 - PyTorch & torchvision (sessions 07-12)
-- Ultralytics (session 09, optional)
+- Ultralytics (session 09)
+- HuggingFace transformers + accelerate (session 09 — Gemma 4 VLM)
