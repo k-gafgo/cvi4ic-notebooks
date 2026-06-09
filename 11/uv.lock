@@ -477,7 +477,7 @@ wheels = [
 ]
 
 [[package]]
-name = "cvi4ic-notebooks"
+name = "cvi4ic-lecture-11-12"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [

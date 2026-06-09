@@ -150,13 +150,13 @@ def extract_features(
     all_cls, all_patch = [], []
     for i in range(0, len(flat_paths), batch_size):
         batch  = [Image.open(p).convert("RGB") for p in flat_paths[i : i + batch_size]]
-        inputs = None #TODO
-        inputs = None #TODO
-        out    = None #TODO
+        inputs = processor(images=batch, return_tensors="pt") #TODO
+        inputs = {k: v.to(device) for k, v in inputs.items()} #TODO
+        out    = model(**inputs) #TODO
 
         all_cls.append(out.pooler_output.cpu().float().numpy())
-
-        patches = None #TODO
+        # [CLS] [REG] [REG] .... [REG] [PATCH 1] ... [PATCH N]
+        patches = out.last_hidden_state[:, 1+num_reg:, :].cpu().float().numpy() #TODO
         assert patches.shape[1] == N_PATCH, (
             f"Expected {N_PATCH} patches, got {patches.shape[1]}"
         )

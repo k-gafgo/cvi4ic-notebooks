@@ -136,8 +136,8 @@ def encode_text_prompts(
     Returns a normalised float32 tensor of shape ``(len(prompts), D)``.
     """
     with torch.no_grad():
-        tokens = None  # TODO
-        feats = None  # TODO
+        tokens = clip.tokenize(prompts).to(device)
+        feats = model.encode_text(tokens).float()
     return F.normalize(feats, dim=-1)
 
 
@@ -162,7 +162,7 @@ def encode_images_batched(
         for i in batches:
             batch = images[i : i + batch_size]
             inputs = torch.stack([preprocess(img) for img in batch]).to(device)
-            feats = None  # TODO
+            feats = F.normalize(model.encode_image(inputs).float(), dim=-1) # TODO
             parts.append(feats.cpu())
     return torch.cat(parts, dim=0)
 
@@ -233,7 +233,7 @@ def classify_images(
         Softmax probability matrix of shape ``(len(images), N_classes)``.
     """
     image_feats = encode_images_batched(images, model, preprocess, device, batch_size)
-    probs = None  # TODO
+    probs = (image_feats.to(text_feats.device) @ text_feats.T).softmax(dim=-1)  # TODO
     return probs.cpu().numpy()
 
 
@@ -259,8 +259,8 @@ def gallery_accuracy(
     correct = total = 0
     for true_idx, folder in enumerate(class_folders):
         imgs = class_images[folder]
-        preds = None  # TODO
-        correct += 0  # TODO
+        preds = classify_images(imgs, text_feats, model, preprocess, device).argmax(axis=1)  # TODO
+        correct += int((preds == true_idx).sum())  # TODO
         total += len(imgs)
     return correct / total
 
@@ -345,6 +345,6 @@ def image_retrieve(
         Corresponding cosine similarities.
     """
     query_feat = encode_images_batched([query_img], model, preprocess, device)  # (1, D)
-    sims = None  # TODO
-    top_idx = None  # TODO
+    sims = (query_feat @ gallery_feats.T).squeeze().numpy()  # TODO
+    top_idx = sims.argsort()[::-1][:top_k]  # TODO
     return top_idx, sims[top_idx]
