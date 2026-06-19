@@ -145,7 +145,7 @@ def upsample(arr, h, w, mode="bilinear"):
         t = t.unsqueeze(-1)
     t  = t.permute(2, 0, 1).unsqueeze(0)
     kw = dict(align_corners=False) if mode == "bilinear" else {}
-    up = None # TODO
+    up = F.interpolate(t, size=(h, w), mode=mode, **kw) # TODO
     return up[0].permute(1, 2, 0).numpy()
 
 
@@ -177,7 +177,9 @@ def extract_features(img_path_or_arr, state, resolution=DEFAULT_RESOLUTION):
     Returns (sp, sp, D) spatial features where sp = resolution // 14.
     """
     tensor              = _to_tensor(img_path_or_arr, resolution, state.device)
-    # TODO
+    _, _, patch_tokens = state.vision_encoder(tensor)
+    sp = resolution // PATCH_SIZE
+    return patch_tokens.cpu().reshape(sp, sp, -1).numpy()
 
 @torch.no_grad()
 def extract_features_value_attention(img_path_or_arr, state,
@@ -291,9 +293,9 @@ def zeroseg(spatial, orig_arr, classes, class_embs):
     n          = len(classes)
 
     feat    = l2_normalize(spatial.reshape(-1, spatial.shape[-1]))
-    sim = None # TODO
-    sim_up  = None # TODO
-    labels  = None # TODO
+    sim = (feat @ class_embs.T).reshape(sp_h, sp_w, n) # TODO
+    sim_up  = upsample(sim, h, w) # TODO
+    labels  = sim_up.argmax(axis=-1) # TODO
 
     palette  = (plt.cm.tab20(np.linspace(0, 1, max(n, 2)))[:n, :3] * 255).astype(np.uint8)
     seg_rgb  = palette[labels].astype(np.float32) / 255.0

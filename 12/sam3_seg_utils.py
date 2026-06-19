@@ -87,10 +87,26 @@ def segment_by_text(image_path, model, processor, text, device,
         {"mask": np.bool_ (H, W), "score": float, "box": np.ndarray [x1,y1,x2,y2]}
     """
     img = Image.open(image_path).convert("RGB")
-    # TODO
+    inputs = processor(images=img, text=text, return_tensors="pt").to(device) # TODO
+    
+    outputs = model(**inputs)
+    results = processor.post_process_instance_segmentation(
+        outputs, 
+        threshold=threshold,
+        mask_threshold=mask_threshold,
+        target_sizes=inputs.get("original_sizes").tolist()
+    )
 
+    best = results[0]
     detections = []
-    # TODO
+    for mask, score, box in zip(best["masks"], best["scores"], best["boxes"]):
+        m = mask.cpu()
+        detections.append({
+            "mask": np.array(m).astype(bool),
+            "score": float(score),
+            "box": np.array(box.cpu())
+        })
+
     detections.sort(key=lambda d: d["score"], reverse=True)
     return detections, img
 
@@ -104,8 +120,12 @@ def segment_by_bbox(image_path, model, processor, box_xyxy, device):
     result: {"mask": np.bool_ (H, W), "score": float}
     """
     img = Image.open(image_path).convert("RGB")
-    inputs = None # TODO
-    outputs = None # TODO
+    inputs = processor(
+        images=img, 
+        input_boxes=[[box_xyxy]],
+        return_tensors="pt"
+    ).to(device)
+    outputs = model(**inputs, multimask_output=False) # multimask_output=False so SAM does not return multiple examples (default)
     masks  = processor.post_process_masks(
         outputs.pred_masks.cpu(), inputs["original_sizes"]
     )[0]                                              # (num_obj, num_masks, H, W)
@@ -116,13 +136,18 @@ def segment_by_bbox(image_path, model, processor, box_xyxy, device):
 def segment_by_point(image_path, model, processor, point_xy, device, label=1):
     """
     Segment the object at pixel `point_xy = (x, y)` using Sam3TrackerModel.
-    label=1 → positive click; label=0 → negative (exclude).
+    label=1 → positive click; label=0 → negative (exclude, background).
 
     Returns (result, PIL.Image).
     result: {"mask": np.bool_ (H, W), "score": float}
     """
     img = Image.open(image_path).convert("RGB")
-    inputs = None # TODO
+    inputs = processor(
+        images=img, 
+        input_points=[[[[int(point_xy[0]), int(point_xy[1])]]]],
+        input_labels=[[[label]]],
+        return_tensors="pt"
+    ).to(device) # TODO
     outputs = model(**inputs, multimask_output=False)
     masks  = processor.post_process_masks(
         outputs.pred_masks.cpu(), inputs["original_sizes"]
