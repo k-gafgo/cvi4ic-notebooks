@@ -392,11 +392,11 @@ def top_pairs(
     highest          : ``True`` → highest similarities; ``False`` → lowest
     exclude_diagonal : if ``True`` skip entries where ``row == col``
     """
-    flat  = None # TODO
-    order = None # TODO
+    flat  = sim_block.flatten() # TODO
+    order = np.argsort(flat)[::-1] if highest else np.argsort(flat) # TODO
     pairs = []
     for idx in order:
-        r, c = None, None # TODO
+        r, c = divmod(int(idx), sim_block.shape[1]) # TODO
         if exclude_diagonal and r == c:
             continue
         pairs.append((r, c, float(sim_block[r, c])))
