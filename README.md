@@ -16,6 +16,7 @@ Jupyter notebooks with exercises and code examples for the Computer Vision (CVI4
 | 07 | CNNs: Review & Modern Architectures | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/schedldave/cvi4ic-notebooks/blob/main/07-cnns.ipynb) |
 | 08 | Vision Transformers (ViT) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/schedldave/cvi4ic-notebooks/blob/main/08-vision-transformers.ipynb) |
 | 09 | Object Detection | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/schedldave/cvi4ic-notebooks/blob/main/09-object-detection.ipynb) |
+| 13 | Pose Estimation | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/schedldave/cvi4ic-notebooks/blob/main/13-pose-estimation.ipynb) |
 
 > More sessions will be added as the course progresses.
 
